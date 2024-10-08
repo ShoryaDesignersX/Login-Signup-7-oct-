@@ -21,7 +21,11 @@ export const SignUp = () => {
 
   //   dasdsdsad
   const validationSchema = Yup.object({
-    name: Yup.string().required("Name is required"),
+    name: Yup.string()
+      .matches(/^[a-zA-Z\s]*$/, "Name can only contain letters and spaces")
+      .min(2, "Too Short!")
+      .max(20, "Too Long!")
+      .required("Name is required"),
     gender: Yup.string().required("Gender Required"),
     qualifications: Yup.array()
       .min(1, "Select at least one qualification") // Ensures at least one qualification is selected
@@ -60,7 +64,7 @@ export const SignUp = () => {
       <div className="min-h-screen flex items-center justify-center bg-[#f3f4f6]">
         <div
           className="bg-white p-8 rounded-lg shadow-lg w-full "
-          style={{ maxWidth: "45rem" }}
+          style={{ maxWidth: "35rem" }}
         >
           <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
           <Formik
