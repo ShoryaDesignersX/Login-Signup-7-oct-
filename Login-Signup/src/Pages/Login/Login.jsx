@@ -23,6 +23,7 @@ const Login = () => {
     email: Yup.string()
       .email("Invalid email format")
       .required("Email is required"),
+    password: Yup.string().required("Password is required"),
   });
 
   const onSubmit = async (values) => {
@@ -32,15 +33,23 @@ const Login = () => {
       const resposne = await axios.post(url, values);
       console.log("data send succesfully", resposne);
       if (resposne.data.success === true) {
+        console.log("ifffff", resposne.data.success);
         handleSuccess("Login SuccessFully");
         setTimeout(() => {
           localStorage.setItem("jwttoken", resposne.data.jwt_token);
+          console.log(values.rememberMe);
           if (values.rememberMe === true) {
             sessionStorage.setItem("email", values.email);
             sessionStorage.setItem("password", values.password);
             sessionStorage.setItem("remem", values.rememberMe);
+          } else {
+            if (values.rememberMe === false) {
+              sessionStorage.removeItem("email", values.email);
+              sessionStorage.removeItem("password", values.password);
+              sessionStorage.removeItem("remem", values.rememberMe);
+            }
           }
-          navigate("/dashboard");
+          navigate("/dashboard/profile");
         }, 2000);
       }
     } catch (error) {
@@ -65,7 +74,7 @@ const Login = () => {
 
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">
         <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
           <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
           <Formik
@@ -104,7 +113,6 @@ const Login = () => {
                       name="password"
                       className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                       placeholder="Enter your password"
-                      required
                     />
                     <span
                       onClick={handleToggle}
@@ -113,7 +121,12 @@ const Login = () => {
                       {icon}
                     </span>
                   </div>
-                  </div>
+                  <ErrorMessage
+                    name="password"
+                    component="small"
+                    className="text-red-500  inline-block absolute"
+                  />
+                </div>
 
                 {/* Remember Me and Forgot Password */}
                 <div className="flex items-center justify-between">
@@ -132,7 +145,7 @@ const Login = () => {
                   </div>
                   <div>
                     <Link
-                      to="/forgot-password"
+                      to="/forgetpassword"
                       className="text-sm text-blue-600 hover:underline"
                     >
                       Forgot Password?

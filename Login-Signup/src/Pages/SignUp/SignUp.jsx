@@ -41,22 +41,24 @@ export const SignUp = () => {
       .required("Password is required"),
   });
 
+
   const onSubmit = async (values) => {
     console.log(values);
-    try {
-      const url = "http://localhost:3000/user/SignUp";
-      const resposne = await axios.post(url, values);
-      console.log("data send succesfully", resposne);
-      if (resposne.data.success === true) {
-        handleSuccess("SignUp SuccessFully");
-        setTimeout(() => {
-          navigate("/login");
-        }, 2000);
-      }
-    } catch (error) {
-      console.log(error);
-      handleError(`Error Occur: ${error.response.data.message}`);
-    }
+
+    // try {
+    //   const url = "http://localhost:3000/user/SignUp";
+    //   const resposne = await axios.post(url, values);
+    //   console.log("data send succesfully", resposne);
+    //   if (resposne.data.success === true) {
+    //     handleSuccess("SignUp SuccessFully");
+    //     setTimeout(() => {
+    //       navigate("/login");
+    //     }, 2000);
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    //   handleError(`Error Occur: ${error.response.data.message}`);
+    // }
   };
 
   return (
@@ -153,6 +155,7 @@ export const SignUp = () => {
                   <div className="flex space-x-4 mt-1">
                     <div className="flex items-center">
                       <Field
+
                         name="qualifications"
                         id="tenth"
                         type="checkbox"

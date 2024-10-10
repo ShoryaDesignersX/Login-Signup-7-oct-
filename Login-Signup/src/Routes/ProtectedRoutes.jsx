@@ -1,17 +1,15 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate,Outlet } from "react-router-dom";
 
 // Example of a ProtectedRoute component
-const ProtectedRoute = ({ children }) => {
-  const token = localStorage.getItem("jwttoken"); // Check for the token
+const ProtectedRoute = () => {
+  const token = localStorage.getItem("jwttoken");
 
   if (!token) {
-    // If there's no token, redirect to the login page
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/login"  />;
   }
 
-  // If the user is authenticated, allow access to the route
-  return children;
+  return <Outlet />;
 };
 
 export default ProtectedRoute;
